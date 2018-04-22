@@ -28,4 +28,4 @@ Inside your generated repo, use:
 ```bash
 yo mono-serverless:package
 ```
-..and follow the prompts.
+...and follow the prompts.
