@@ -26,14 +26,14 @@ module.exports = class extends Generator {
             {
                 type: 'input',
                 name: 'name',
-                message: 'Project name:',
+                message: 'Project name:'
             },
             {
                 type: 'input',
                 name: 'version',
                 message: 'Project version:',
-                default: '0.0.1',
-            },
+                default: '0.0.1'
+            }
         ];
 
         return this.prompt(prompts).then(props => {
@@ -45,9 +45,7 @@ module.exports = class extends Generator {
 
     end() {
         this.log('');
-        this.log(
-            `Success! Created ${this.props.name} at ${this.props.projectPath}`
-        );
+        this.log(`Success! Created ${this.props.name} at ${this.props.projectPath}`);
         this.log('');
         this.log('To create your first package run:');
         this.log('');
@@ -57,31 +55,29 @@ module.exports = class extends Generator {
     }
 
     writing() {
-
         [
-            '.editorconfig', '.envExample', '.eslintignore', '.eslintrc.json', '.gitattributes',
-            '.gitignore', '.travis.yml', 'webpack.config.js', 'jest.json', 'tsconfig.json'
+            '.editorconfig',
+            '.envExample',
+            '.eslintignore',
+            '.eslintrc.json',
+            '.gitattributes',
+            '.gitignore',
+            '.travis.yml',
+            'webpack.config.js',
+            'jest.json',
+            'tsconfig.json'
         ].forEach(fileName => {
-            this.fs.copy(
-                this.templatePath(fileName),
-                this.destinationPath(`${this.props.name}/${fileName}`)
-            );
+            this.fs.copy(this.templatePath(fileName), this.destinationPath(`${this.props.name}/${fileName}`));
         });
 
-        this.fs.copyTpl(
-            this.templatePath('_lerna.json'),
-            this.destinationPath(`${this.props.name}/lerna.json`),
-            {version: this.props.version}
-        );
+        this.fs.copyTpl(this.templatePath('_lerna.json'), this.destinationPath(`${this.props.name}/lerna.json`), {
+            version: this.props.version
+        });
 
-        this.fs.copyTpl(
-            this.templatePath('_package.json'),
-            this.destinationPath(`${this.props.name}/package.json`),
-            {
-                version: this.props.version,
-                name: this.props.name,
-            }
-        );
+        this.fs.copyTpl(this.templatePath('_package.json'), this.destinationPath(`${this.props.name}/package.json`), {
+            version: this.props.version,
+            name: this.props.name
+        });
     }
 
     install() {
@@ -91,16 +87,11 @@ module.exports = class extends Generator {
         this.installDependencies({
             bower: false,
             npm: false,
-            yarn: true,
+            yarn: true
         }).then(() => {
             if (this.bootstrap) {
                 this.spawnCommandSync('yarn', ['run', 'bootstrap']);
-                this.spawnCommandSync('yarn', [
-                    'add',
-                    'generator-mono-serverless',
-                    '-D',
-                    '-W',
-                ]);
+                this.spawnCommandSync('yarn', ['add', 'generator-mono-serverless', '-D', '-W']);
             }
 
             process.chdir(cwd);

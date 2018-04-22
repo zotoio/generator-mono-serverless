@@ -29,26 +29,25 @@ module.exports = class extends Generator {
             {
                 type: 'input',
                 name: 'name',
-                message: 'Package name:',
+                message: 'Package name:'
             },
             {
                 type: 'input',
                 name: 'version',
                 message: `Package version:`,
-                default: defaultVersion,
+                default: defaultVersion
             },
             {
                 type: 'input',
                 name: 'packageScope',
                 message: `Package scope:`,
-                default: '',
-            }
-            ,
+                default: ''
+            },
             {
                 type: 'input',
                 name: 'ddbTableName',
                 message: `DynamoDB table name:`,
-                default: '',
+                default: ''
             }
         ];
 
@@ -56,9 +55,7 @@ module.exports = class extends Generator {
             // To access props later use this.props.someAnswer;
             this.props = props;
             this.props.packagePath = path.resolve(`packages/${props.name}`);
-            this.props.packageName = props.packageScope
-                ? `${props.packageScope}/${props.name}`
-                : props.name;
+            this.props.packageName = props.packageScope ? `${props.packageScope}/${props.name}` : props.name;
         });
     }
 
@@ -68,10 +65,7 @@ module.exports = class extends Generator {
             this.destinationPath(`${this.props.packagePath}/__tests__/index.test.ts`)
         );
 
-        this.fs.copy(
-            this.templatePath('src/index.ts'),
-            this.destinationPath(`${this.props.packagePath}/src/index.ts`)
-        );
+        this.fs.copy(this.templatePath('src/index.ts'), this.destinationPath(`${this.props.packagePath}/src/index.ts`));
 
         this.fs.copy(
             this.templatePath('tsconfig.json'),
@@ -83,7 +77,7 @@ module.exports = class extends Generator {
             this.destinationPath(`${this.props.packagePath}/package.json`),
             {
                 version: this.props.version,
-                name: this.props.packageName,
+                name: this.props.packageName
             }
         );
 
@@ -105,7 +99,7 @@ module.exports = class extends Generator {
         this.installDependencies({
             bower: false,
             npm: false,
-            yarn: true,
+            yarn: true
         }).then(() => {
             process.chdir(cwd);
             if (this.bootstrap) {
@@ -116,11 +110,7 @@ module.exports = class extends Generator {
 
     end() {
         this.log('');
-        this.log(
-            `Success! Created package ${this.props.packageName} at ${
-                this.props.projectPath
-                }`
-        );
+        this.log(`Success! Created package ${this.props.packageName} at ${this.props.projectPath}`);
         this.log('');
     }
 };

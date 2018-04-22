@@ -1,92 +1,82 @@
 {
-  "name": "generator-mono-serverless",
-  "version": "0.0.0",
-  "description": "Lerna monorepo to contain serverless lambda functions",
-  "homepage": "https://zoto.io",
-  "author": {
-    "name": "wyvern8",
-    "email": "wyvern@smartcreations.com.au",
-    "url": "https://zoto.io"
-  },
-  "files": [
-    "generators"
-  ],
-  "main": "generators/index.js",
-  "keywords": [
-    "lambda",
-    "yeoman-generator",
-    "serverless",
-    "typescript"
-  ],
-  "devDependencies": {
-    "@types/jest": "^21.1.5",
-    "coveralls": "^2.13.1",
-    "eslint": "^4.1.0",
-    "eslint-config-prettier": "^2.4.0",
-    "eslint-config-xo": "^0.18.2",
-    "eslint-plugin-prettier": "^2.2.0",
-    "faker": "^4.1.0",
-    "husky": "^0.14.3",
-    "jest": "^21.0.0",
-    "jest-cli": "^21.0.0",
-    "lint-staged": "^4.2.1",
-    "nsp": "^2.6.3",
-    "prettier": "^1.7.0",
-    "semantic-release": "^8.2.0",
-    "yeoman-assert": "^3.1.0",
-    "yeoman-test": "^1.7.0"
-  },
-  "dependencies": {
-    "chalk": "^2.1.0",
-    "yeoman-generator": "^2.0.1",
-    "yosay": "^2.0.1"
-  },
-  "jest": {
-    "testEnvironment": "node"
-  },
-  "scripts": {
-    "prepublish": "nsp check",
-    "pretest": "eslint . --fix",
-    "precommit": "lint-staged",
-    "test": "jest",
-    "ci": "jest --coverage",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add",
-      "jest --bail --findRelatedTests"
-    ],
-    "*.json": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "xo",
-      "prettier"
-    ],
-    "env": {
-      "jest": true,
-      "node": true
+    "name": "generator-mono-serverless",
+    "version": "0.0.0",
+    "description": "Lerna monorepo to contain serverless lambda functions",
+    "homepage": "https://zoto.io",
+    "author": {
+        "name": "wyvern8",
+        "email": "wyvern@smartcreations.com.au",
+        "url": "https://zoto.io"
     },
-    "rules": {
-      "prettier/prettier": [
-        "error",
-        {
-          "useTabs": false,
-          "printWidth": 120,
-          "tabWidth": 4,
-          "singleQuote": true
+    "files": ["generators"],
+    "main": "generators/index.js",
+    "keywords": ["lambda", "yeoman-generator", "serverless", "typescript"],
+    "devDependencies": {
+        "@types/jest": "^21.1.5",
+        "coveralls": "^2.13.1",
+        "eslint": "^4.1.0",
+        "eslint-config-prettier": "^2.4.0",
+        "eslint-config-xo": "^0.18.2",
+        "eslint-plugin-prettier": "^2.2.0",
+        "faker": "^4.1.0",
+        "husky": "^0.14.3",
+        "jest": "^21.0.0",
+        "jest-cli": "^21.0.0",
+        "lint-staged": "^4.2.1",
+        "nsp": "^2.6.3",
+        "prettier": "^1.7.0",
+        "semantic-release": "^8.2.0",
+        "yeoman-assert": "^3.1.0",
+        "yeoman-test": "^1.7.0",
+        "commitizen": "^2.9.6",
+        "cross-env": "^5.1.3",
+        "cz-conventional-changelog": "^2.1.0"
+    },
+    "dependencies": {
+        "chalk": "^2.1.0",
+        "yeoman-generator": "^2.0.1",
+        "yosay": "^2.0.1"
+    },
+    "jest": {
+        "testEnvironment": "node"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
         }
-      ]
     },
-    "plugins": [
-      "prettier"
-    ]
-  },
-  "repository": "zotoio/generator-mono-serverless",
-  "license": "MIT"
+    "scripts": {
+        "prepublish": "nsp check",
+        "pretest": "eslint . --fix",
+        "precommit": "lint-staged",
+        "test": "jest",
+        "ci": "jest --coverage",
+        "commit": "./node_modules/.bin/git-cz",
+        "semantic-release": "semantic-release"
+    },
+    "lint-staged": {
+        "*.js": ["eslint --fix", "git add", "jest --bail --findRelatedTests"],
+        "*.json": ["prettier --write", "git add"]
+    },
+    "eslintConfig": {
+        "extends": ["xo", "prettier"],
+        "env": {
+            "jest": true,
+            "node": true
+        },
+        "rules": {
+            "prettier/prettier": [
+                "error",
+                {
+                    "useTabs": false,
+                    "printWidth": 120,
+                    "tabWidth": 4,
+                    "singleQuote": true
+                }
+            ]
+        },
+        "plugins": ["prettier"]
+    },
+    "repository": "zotoio/generator-mono-serverless",
+    "license": "MIT"
 }
