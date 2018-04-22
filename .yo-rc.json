@@ -1,0 +1,9 @@
+{
+  "generator-node": {
+    "promptValues": {
+      "authorName": "wyvern8",
+      "authorEmail": "wyvern@smartcreations.com.au",
+      "authorUrl": "https://zoto.io"
+    }
+  }
+}
