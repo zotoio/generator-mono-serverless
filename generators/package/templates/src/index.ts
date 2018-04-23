@@ -9,12 +9,14 @@ interface HelloResponse {
 }
 
 const handler: Handler = (event: any, context: Context, callback: Callback) => {
-    AWS.config.update({ region: process.env.GTM_AWS_REGION });
+    AWS.config.update({ region: process.env.SLS_AWS_REGION });
 
     const response: HelloResponse = {
         statusCode: 200,
         body: JSON.stringify(event)
     };
+
+    console.log('use console log, and view cloudwatch logs');
 
     callback(undefined, response);
 };
