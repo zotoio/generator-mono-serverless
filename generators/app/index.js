@@ -58,14 +58,14 @@ module.exports = class extends Generator {
         [
             '.editorconfig',
             '.envExample',
-            '.eslintignore',
-            '.eslintrc.json',
             '.gitattributes',
             '.gitignore',
+            '.prettierrc.json',
             '.travis.yml',
             'webpack.config.js',
             'jest.json',
-            'tsconfig.json'
+            'tsconfig.json',
+            'tslint.json'
         ].forEach(fileName => {
             this.fs.copy(this.templatePath(fileName), this.destinationPath(`${this.props.name}/${fileName}`));
         });

@@ -66,11 +66,14 @@ module.exports = class extends Generator {
         );
 
         this.fs.copy(this.templatePath('src/index.ts'), this.destinationPath(`${this.props.packagePath}/src/index.ts`));
-
         this.fs.copy(
-            this.templatePath('tsconfig.json'),
-            this.destinationPath(`${this.props.packagePath}/tsconfig.json`)
+            this.templatePath('src/index.spec.ts'),
+            this.destinationPath(`${this.props.packagePath}/src/index.spec.ts`)
         );
+
+        ['tsconfig.json', 'tslint.json'].forEach(fileName => {
+            this.fs.copy(this.templatePath(fileName), this.destinationPath(`${this.props.packagePath}/${fileName}`));
+        });
 
         this.fs.copyTpl(
             this.templatePath('_package.json'),
