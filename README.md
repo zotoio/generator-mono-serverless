@@ -9,7 +9,7 @@ Yeoman generator to create Lerna (https://lernajs.io/) Typescript monorepos, for
 
 ## Installation
 
-Make sure you have Nodejs 8.10 LTS or above.
+Make sure you have Nodejs 8.10 LTS or above, along with Yarn.
 
 First, install [Yeoman](http://yeoman.io) and generator-mono-serverless using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
@@ -28,6 +28,6 @@ yo mono-serverless
 Inside your generated repo, use:
 
 ```bash
-yo mono-serverless:package
+yarn generate-package
 ```
 ...and follow the prompts.
