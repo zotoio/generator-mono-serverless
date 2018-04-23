@@ -1,4 +1,6 @@
 # generator-mono-serverless 
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/zotoio/generator-mono-serverless.svg)](https://greenkeeper.io/)
 [![npm version](https://badge.fury.io/js/generator-mono-serverless.svg)](https://badge.fury.io/js/generator-mono-serverless)
 [![Build Status](https://travis-ci.org/zotoio/generator-mono-serverless.svg?branch=master)](https://travis-ci.org/zotoio/generator-mono-serverless)
 
