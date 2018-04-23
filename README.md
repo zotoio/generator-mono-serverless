@@ -28,6 +28,6 @@ yo mono-serverless
 Inside your generated repo, use:
 
 ```bash
-yarn generate-package
+yarn run generate-package
 ```
 ...and follow the prompts.
