@@ -1,2 +1,3 @@
+# shared env vars for all functions
 SLS_AWS_STAGE=dev
 SLS_AWS_REGION=ap-southeast-2

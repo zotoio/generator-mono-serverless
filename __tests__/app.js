@@ -4,7 +4,7 @@ const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const faker = require('faker');
 
-describe('generator-elderfo-typescript-workspace:app', () => {
+describe('generator-mono-serverless:app', () => {
     const appName = faker.random.word();
     const appVersion = faker.random.number();
 

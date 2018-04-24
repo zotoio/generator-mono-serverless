@@ -2,7 +2,7 @@
     "name": "generator-mono-serverless",
     "version": "0.0.0",
     "description": "Lerna monorepo to contain serverless lambda functions",
-    "homepage": "https://zoto.io",
+    "homepage": "https://github.com/zotoio/generator-mono-serverless",
     "author": {
         "name": "wyvern8",
         "email": "wyvern@smartcreations.com.au",
