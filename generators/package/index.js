@@ -71,9 +71,11 @@ module.exports = class extends Generator {
             this.destinationPath(`${this.props.packagePath}/src/index.spec.ts`)
         );
 
-        ['tsconfig.json', 'tslint.json'].forEach(fileName => {
+        ['tsconfig.json', 'tslint.json', '.envExample'].forEach(fileName => {
             this.fs.copy(this.templatePath(fileName), this.destinationPath(`${this.props.packagePath}/${fileName}`));
         });
+
+        this.fs.copy(this.templatePath('.envExample'), this.destinationPath(`${this.props.packagePath}/.env`));
 
         this.fs.copyTpl(
             this.templatePath('_package.json'),

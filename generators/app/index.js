@@ -56,10 +56,10 @@ module.exports = class extends Generator {
 
     writing() {
         [
+            'dotenv.js',
             '.editorconfig',
             '.envExample',
             '.gitattributes',
-            '.gitignore',
             '.prettierrc.json',
             '.travis.yml',
             'webpack.config.js',
@@ -69,6 +69,8 @@ module.exports = class extends Generator {
         ].forEach(fileName => {
             this.fs.copy(this.templatePath(fileName), this.destinationPath(`${this.props.name}/${fileName}`));
         });
+        this.fs.copy(this.templatePath('.envExample'), this.destinationPath(`${this.props.name}/.env`));
+        this.fs.copy(this.templatePath('_gitignore'), this.destinationPath(`${this.props.name}/.gitignore`));
 
         this.fs.copyTpl(this.templatePath('_lerna.json'), this.destinationPath(`${this.props.name}/lerna.json`), {
             version: this.props.version
