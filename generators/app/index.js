@@ -73,7 +73,7 @@ module.exports = class extends Generator {
         this.fs.copy(this.templatePath('_gitignore'), this.destinationPath(`${this.props.name}/.gitignore`));
 
         this.fs.copyTpl(this.templatePath('_README.md'), this.destinationPath(`${this.props.name}/README.md`), {
-            version: this.props.version
+            name: this.props.name
         });
 
         this.fs.copyTpl(this.templatePath('_lerna.json'), this.destinationPath(`${this.props.name}/lerna.json`), {
