@@ -96,3 +96,6 @@ yarn run sls-deploy
 ```
 
 At this point you should be ready generate more serverless packages and start coding your functions.
+
+## Examples
+See https://github.com/zotoio/serverless-central for some example functions seeded by this generator.
