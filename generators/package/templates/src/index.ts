@@ -1,6 +1,7 @@
 'use strict';
 
 import { Handler, Context, Callback } from 'aws-lambda';
+import 'source-map-support/register';
 import * as AWS from 'aws-sdk';
 
 interface HelloResponse {

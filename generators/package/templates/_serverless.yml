@@ -3,7 +3,12 @@ service: <%= name %>
 plugins:
   - serverless-webpack
   - serverless-offline
+  <% if (useAliases) { %>
   - serverless-aws-alias
+  <% } %>
+  <% if (useDomainManager) { %>
+  - serverless-domain-manager
+  <% } %>
 
 provider:
   name: aws
@@ -72,3 +77,26 @@ resources:
 custom:
   webpack:
     webpackConfig: '../../webpack.config.js'
+
+  <% if (useDomainManager) { %>
+  domains:
+    prod: ${env:SLS_CUSTOM_DOMAIN}
+    sit: sit.${env:SLS_CUSTOM_DOMAIN}
+    dev: dev.${env:SLS_CUSTOM_DOMAIN}
+    local: ''
+
+  dnsEnabled:
+    prod: true
+    sit: true
+    dev: true
+    local: false
+
+  customDomain:
+    domainName: ${self:custom.domains.${self:provider.stage}}
+    certificateName: ${env:SLS_CUSTOM_DOMAIN}
+    basePath: ${self:service}
+    stage: ${self:provider.stage}
+    createRoute53Record: true
+    endpointType: regional
+    enabled: ${self:custom.dnsEnabled.${self:provider.stage}}
+  <% } %>

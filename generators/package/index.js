@@ -48,6 +48,18 @@ module.exports = class extends Generator {
                 name: 'ddbTableName',
                 message: `DynamoDB table name:`,
                 default: ''
+            },
+            {
+                type: 'confirm',
+                name: 'useAliases',
+                message: `Use API Gateway aliases?`,
+                default: false
+            },
+            {
+                type: 'confirm',
+                name: 'useDomainManager',
+                message: `Use custom domain manager?`,
+                default: false
             }
         ];
 
@@ -56,6 +68,8 @@ module.exports = class extends Generator {
             this.props = props;
             this.props.packagePath = path.resolve(`packages/${props.name}`);
             this.props.packageName = props.packageScope ? `${props.packageScope}/${props.name}` : props.name;
+            this.props.useDomainManager = props.useDomainManager;
+            this.props.useAliases = props.useAliases;
         });
     }
 
@@ -96,7 +110,9 @@ module.exports = class extends Generator {
             {
                 version: this.props.version,
                 name: this.props.packageName,
-                ddbTableName: this.props.ddbTableName
+                ddbTableName: this.props.ddbTableName,
+                useDomainManager: this.props.useDomainManager,
+                useAliases: this.props.useAliases
             }
         );
     }
