@@ -3,6 +3,7 @@ service: <%= name %>
 plugins:
   - serverless-webpack
   - serverless-offline
+  - serverless-aws-alias
 
 provider:
   name: aws
