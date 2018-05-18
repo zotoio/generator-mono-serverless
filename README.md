@@ -30,11 +30,18 @@ yo mono-serverless
 Inside your generated repo, use:
 
 ```bash
-yarn run generate-package
+yarn generate-package
 ```
-...and follow the prompts.
+..and follow the prompts. This will give you the scaffolding for a new serverless function.  
 
+You will be prompted for:
 
+- lambda package name, version and npm namespace
+- dynamodb tablename (optional creation and binding)
+- whether to enable API gateway aliases
+- whether to enable custom domain names
+
+Custom domain names can be used to surface api endpoints on a domain name managed in a Route53 zone you can control, and should have a predeployed AWS managed TLS certificate.  Base path will be the package name.  View serverless.yml for details.
 
 ## Installation detail
 More detailed steps.
@@ -86,13 +93,38 @@ yo mono-serverless
 
 ### inside new repo run
 ```
-yarn run generate-package
+yarn generate-package
+```
+
+## execution
+The following scripts are used to manage functions.
+
+### test offline
+Inside new package run this, then browse to url shown.
+```
+yarn sls-offline
 ```
 
 ### test end to end
 Inside new package run this, then browse to url shown.
 ```
-yarn run sls-deploy
+yarn sls-deploy
+```
+
+### remove lambda
+Inside new package run this.
+```
+yarn sls-remove
+```
+if API gateway aliases are enabled, use this first:
+```
+yarn sls-remove-alias --alias=<stage|alias>
+```
+
+### tail lambda logs
+Inside new package run this.
+```
+yarn sls-logs --function=[functionName]
 ```
 
 At this point you should be ready generate more serverless packages and start coding your functions.
