@@ -32,7 +32,7 @@ Inside your generated repo, use:
 ```bash
 yarn generate-package
 ```
-..and following the prompts. This will give you the scaffolding for a new serverless function.  
+..and follow the prompts. This will give you the scaffolding for a new serverless function.  
 
 You will be prompted for:
 

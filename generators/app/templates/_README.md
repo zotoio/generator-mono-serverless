@@ -17,7 +17,7 @@ You can add new function packages by running the yeoman generator:
 yarn generate-package
 ```
 
-..and following the prompts. This will give you the scaffolding for a new serverless function.  
+..and follow the prompts. This will give you the scaffolding for a new serverless function.  
 
 You will be prompted for:
 
