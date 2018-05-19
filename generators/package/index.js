@@ -13,7 +13,7 @@ module.exports = class extends Generator {
 
     configuring() {
         this.log('');
-        this.log(`Creating a new TypeScript package in ${this.props.projectPath}`);
+        this.log(`Creating a new TypeScript serverless package..`);
         this.log('');
     }
 
@@ -135,7 +135,7 @@ module.exports = class extends Generator {
 
     end() {
         this.log('');
-        this.log(`Success! Created package ${this.props.packageName} at ${this.props.projectPath}`);
+        this.log(`Success! Created package ${this.props.packageName} in ./packages`);
         this.log('');
     }
 };
