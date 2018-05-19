@@ -10,6 +10,9 @@ All functions are in directories under /packages
 
 Each function has a standalone serverless.yml for independent deployment, while also sharing global libraries and build/test/linting frameworks.
 
+> Note that you can generate swagger documentation for your functions using annotations in your serverless.yml files.
+https://github.com/deliveryhero/serverless-aws-documentation
+
 ## Extending
 You can add new function packages by running the yeoman generator:
 
