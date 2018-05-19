@@ -43,6 +43,40 @@ You will be prompted for:
 
 Custom domain names can be used to surface api endpoints on a domain name managed in a Route53 zone you can control, and should have a predeployed AWS managed TLS certificate.  Base path will be the package name.  View serverless.yml for details.
 
+> Note that you can generate swagger documentation for your functions using annotations in your serverless.yml files.
+https://github.com/deliveryhero/serverless-aws-documentation
+
+## Execution
+The following scripts are used to manage functions.
+
+### test offline
+Inside new package run this, then browse to url shown.
+```
+yarn sls-offline
+```
+
+### test end to end
+Inside new package run this, then browse to url shown.
+```
+yarn sls-deploy
+```
+
+### remove lambda
+Inside new package run this.
+```
+yarn sls-remove
+```
+if API gateway aliases are enabled, use this first:
+```
+yarn sls-remove-alias --alias=<stage|alias>
+```
+
+### tail lambda logs
+Inside new package run this.
+```
+yarn sls-logs --function=[functionName]
+```
+
 ## Installation detail
 More detailed steps.
 
@@ -95,38 +129,6 @@ yo mono-serverless
 ```
 yarn generate-package
 ```
-
-## execution
-The following scripts are used to manage functions.
-
-### test offline
-Inside new package run this, then browse to url shown.
-```
-yarn sls-offline
-```
-
-### test end to end
-Inside new package run this, then browse to url shown.
-```
-yarn sls-deploy
-```
-
-### remove lambda
-Inside new package run this.
-```
-yarn sls-remove
-```
-if API gateway aliases are enabled, use this first:
-```
-yarn sls-remove-alias --alias=<stage|alias>
-```
-
-### tail lambda logs
-Inside new package run this.
-```
-yarn sls-logs --function=[functionName]
-```
-
 At this point you should be ready generate more serverless packages and start coding your functions.
 
 ## Examples
