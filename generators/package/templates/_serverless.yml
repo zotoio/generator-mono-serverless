@@ -1,6 +1,7 @@
 service: <%= name %>
 
 plugins:
+  - serverless-plugin-typescript
   - serverless-webpack
   - serverless-offline
   - serverless-aws-documentation
@@ -39,7 +40,7 @@ package:
 
 functions:
   <%= name %>:
-    handler: build/index.handler
+    handler: src/index.handler
     environment:
     <% if (ddbTableName) { %>
       <%= ddbTableName %>:
@@ -47,7 +48,7 @@ functions:
     <% } %>
     package:
       include:
-        - build/**
+        - src/**
 
     events:
       - http:
@@ -77,7 +78,7 @@ resources:
 
 custom:
   webpack:
-    webpackConfig: '../../webpack.config.js'
+    webpackConfig: '../../../webpack.config.js'
 
   <% if (useDomainManager) { %>
   domains:
