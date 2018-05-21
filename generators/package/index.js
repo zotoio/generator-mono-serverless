@@ -121,12 +121,20 @@ module.exports = class extends Generator {
             );
         }
 
+        if (this.props.provider === 'aws' && this.props.ddbTableName) {
+            this.fs.copy(
+                this.templatePath(`dynamoTable.seed.json`),
+                this.destinationPath(`${this.props.packagePath}/${this.props.ddbTableName}.seed.json`)
+            );
+        }
+
         this.fs.copyTpl(
-            this.templatePath('_package.json'),
+            this.templatePath(`_package-${this.props.provider}.json`),
             this.destinationPath(`${this.props.packagePath}/package.json`),
             {
                 version: this.props.version,
-                name: this.props.packageName
+                name: this.props.packageName,
+                ddbTableName: this.props.ddbTableName
             }
         );
 
@@ -135,13 +143,24 @@ module.exports = class extends Generator {
             provider: this.props.provider
         });
 
-        this.fs.copyTpl(
-            this.templatePath(`src/_index-${this.props.provider}.ts`),
-            this.destinationPath(`${this.props.packagePath}/src/index.ts`),
-            {
-                name: this.props.packageName
-            }
-        );
+        if (this.props.ddbTableName) {
+            this.fs.copyTpl(
+                this.templatePath(`src/_index-aws-dynamo.ts`),
+                this.destinationPath(`${this.props.packagePath}/src/index.ts`),
+                {
+                    name: this.props.packageName,
+                    ddbTableName: this.props.ddbTableName
+                }
+            );
+        } else {
+            this.fs.copyTpl(
+                this.templatePath(`src/_index-${this.props.provider}.ts`),
+                this.destinationPath(`${this.props.packagePath}/src/index.ts`),
+                {
+                    name: this.props.packageName
+                }
+            );
+        }
 
         this.fs.copyTpl(
             this.templatePath(`_serverless-${this.props.provider}.yml`),

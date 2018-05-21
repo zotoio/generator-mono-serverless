@@ -36,8 +36,24 @@ Custom domain names can be used to surface api endpoints on a domain name manage
 ### Test offline
 Inside new package run this, then browse to url shown.
 ```
-yarn sls-offline
+yarn dev
 ```
+In offline mode, your typescript changes are watched, compile and redeployed automatically after a number of seconds.
+
+### Offline dynamodb
+If you are using aws and entered a dynamodb table name, config is put in place for you to develop locally.  Use the following to install and run the aws dynamo utility.
+```
+yarn sls-dynamodb-install
+yarn sls-dynamodb-start (in shell 1)
+yarn dev (in shell 2)
+```
+This will start a local apigateway and lambda simulator, along with a dynamodb instance with your table primed with test data.
+
+> You can query the dynamo table at http://localhost:8000
+> You can test the lambda at http://localhost:3000/[functionName]/1abc (1abd is an id from default json seed data)
+
+Local db seed data is taken from [tablename].seed.json in your function directory.  As you develop your function, update the seed data accordingly.
+
 
 ### Deploy
 To deploy a given function, go to the `packages/[function]` dir and run:
