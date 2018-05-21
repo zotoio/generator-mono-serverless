@@ -44,18 +44,34 @@ module.exports = class extends Generator {
                 default: ''
             },
             {
+                type: 'list',
+                name: 'provider',
+                message: 'Serverless platform:',
+                choices: ['aws', 'google'],
+                default: 'aws'
+            },
+            {
+                when: function(response) {
+                    return response.provider === 'aws';
+                },
                 type: 'input',
                 name: 'ddbTableName',
                 message: `DynamoDB table name:`,
                 default: ''
             },
             {
+                when: function(response) {
+                    return response.provider === 'aws';
+                },
                 type: 'confirm',
                 name: 'useAliases',
                 message: `Use API Gateway aliases?`,
                 default: false
             },
             {
+                when: function(response) {
+                    return response.provider === 'aws';
+                },
                 type: 'confirm',
                 name: 'useDomainManager',
                 message: `Use custom domain manager?`,
@@ -68,8 +84,9 @@ module.exports = class extends Generator {
             this.props = props;
             this.props.packagePath = path.resolve(`packages/${props.name}`);
             this.props.packageName = props.packageScope ? `${props.packageScope}/${props.name}` : props.name;
-            this.props.useDomainManager = props.useDomainManager;
-            this.props.useAliases = props.useAliases;
+            this.props.useDomainManager = props.useDomainManager || false;
+            this.props.useAliases = props.useAliases || false;
+            this.props.provider = props.provider || 'aws';
         });
     }
 
@@ -79,17 +96,30 @@ module.exports = class extends Generator {
             this.destinationPath(`${this.props.packagePath}/__tests__/index.test.ts`)
         );
 
-        this.fs.copy(this.templatePath('src/index.ts'), this.destinationPath(`${this.props.packagePath}/src/index.ts`));
         this.fs.copy(
             this.templatePath('src/index.spec.ts'),
             this.destinationPath(`${this.props.packagePath}/src/index.spec.ts`)
         );
 
-        ['tsconfig.json', 'tslint.json', '.envExample'].forEach(fileName => {
+        ['tsconfig.json', 'tslint.json', `.envExample-${this.props.provider}`].forEach(fileName => {
             this.fs.copy(this.templatePath(fileName), this.destinationPath(`${this.props.packagePath}/${fileName}`));
         });
 
-        this.fs.copy(this.templatePath('.envExample'), this.destinationPath(`${this.props.packagePath}/.env`));
+        this.fs.copy(
+            this.templatePath(`.envExample-${this.props.provider}`),
+            this.destinationPath(`${this.props.packagePath}/.envExample`)
+        );
+        this.fs.copy(
+            this.templatePath(`.envExample-${this.props.provider}`),
+            this.destinationPath(`${this.props.packagePath}/.env`)
+        );
+
+        if (this.props.provider === 'google') {
+            this.fs.copy(
+                this.templatePath(`webpack.config-${this.props.provider}.js`),
+                this.destinationPath(`${this.props.packagePath}/webpack.config.js`)
+            );
+        }
 
         this.fs.copyTpl(
             this.templatePath('_package.json'),
@@ -101,11 +131,20 @@ module.exports = class extends Generator {
         );
 
         this.fs.copyTpl(this.templatePath('_README.md'), this.destinationPath(`${this.props.packagePath}/README.md`), {
-            name: this.props.packageName
+            name: this.props.packageName,
+            provider: this.props.provider
         });
 
         this.fs.copyTpl(
-            this.templatePath('_serverless.yml'),
+            this.templatePath(`src/_index-${this.props.provider}.ts`),
+            this.destinationPath(`${this.props.packagePath}/src/index.ts`),
+            {
+                name: this.props.packageName
+            }
+        );
+
+        this.fs.copyTpl(
+            this.templatePath(`_serverless-${this.props.provider}.yml`),
             this.destinationPath(`${this.props.packagePath}/serverless.yml`),
             {
                 version: this.props.version,

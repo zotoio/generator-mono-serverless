@@ -1,0 +1,3 @@
+# function specific env vars override and extend shared .env
+#SLS_GGL_API_PROJECT_ID=<projectId>
+#SLS_GGL_CREDS_FILE=~/.gcloud/keyfile.json
