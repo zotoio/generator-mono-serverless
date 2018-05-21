@@ -3,6 +3,9 @@ service: <%= name %>
 plugins:
   - serverless-plugin-typescript
   - serverless-webpack
+  <% if (ddbTableName) { %>
+  - serverless-dynamodb-local
+  <% } %>
   - serverless-offline
   - serverless-aws-documentation
   <% if (useAliases) { %>
@@ -29,6 +32,8 @@ provider:
     - Effect: Allow
       Action:
         - dynamodb:UpdateItem
+        - dynamodb:Query
+        - dynamodb:PutItem
       Resource:
         Fn::GetAtt: [ <%= ddbTableName %>, Arn ]
   <% } %>
@@ -52,7 +57,11 @@ functions:
 
     events:
       - http:
+          <% if (ddbTableName) { %>
+          path: <%= name %>/{id}
+          <% } else { %>
           path: <%= name %>
+          <% } %>
           method: get
 
 <% if (ddbTableName) { %>
@@ -79,6 +88,18 @@ resources:
 custom:
   webpack:
     webpackConfig: '../../../webpack.config.js'
+
+  <% if (ddbTableName) { %>
+  dynamodb:
+    start:
+      seed: true
+
+    seed:
+      testdata:
+        sources:
+          - table: <%= ddbTableName %>
+            sources: [./<%= ddbTableName %>.seed.json]
+  <% } %>
 
   <% if (useDomainManager) { %>
   domains:
