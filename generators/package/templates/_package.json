@@ -1,8 +1,8 @@
 {
     "name": "<%= name %>",
     "version": "<%= version %>",
-    "main": "build/index.js",
-    "types": "build/index.d.js",
+    "main": "src/index.js",
+    "types": "src/index.d.js",
     "license": "MIT",
     "scripts": {
         "build": "yarn run lint && yarn run test",
@@ -21,6 +21,8 @@
         "sls-remove-alias":
             "node --require ../../dotenv.js  ../../node_modules/serverless/bin/serverless alias remove -v",
         "sls-logs":
-            "node --require ../../dotenv.js  ../../node_modules/serverless/bin/serverless logs -v -t"
+            "node --require ../../dotenv.js  ../../node_modules/serverless/bin/serverless logs -v -t",
+        "sls-info":
+            "node --require ../../dotenv.js  ../../node_modules/serverless/bin/serverless info"
     }
 }

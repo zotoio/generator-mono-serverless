@@ -4,7 +4,7 @@ import { Handler, Context, Callback } from 'aws-lambda';
 import 'source-map-support/register';
 import * as AWS from 'aws-sdk';
 
-interface HelloResponse {
+interface ApiResponse {
     statusCode: number;
     body: string;
 }
@@ -12,7 +12,7 @@ interface HelloResponse {
 const handler: Handler = (event: any, context: Context, callback: Callback) => {
     AWS.config.update({ region: process.env.SLS_AWS_REGION });
 
-    const response: HelloResponse = {
+    const response: ApiResponse = {
         statusCode: 200,
         body: JSON.stringify(event)
     };
