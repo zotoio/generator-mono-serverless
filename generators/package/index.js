@@ -84,6 +84,7 @@ module.exports = class extends Generator {
             this.props = props;
             this.props.packagePath = path.resolve(`packages/${props.name}`);
             this.props.packageName = props.packageScope ? `${props.packageScope}/${props.name}` : props.name;
+            this.props.ddbTableName = props.ddbTableName;
             this.props.useDomainManager = props.useDomainManager || false;
             this.props.useAliases = props.useAliases || false;
             this.props.provider = props.provider || 'aws';
