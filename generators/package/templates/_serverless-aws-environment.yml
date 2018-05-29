@@ -1,0 +1,3 @@
+environment:
+  HERITAGE: generator-mono-serverless:package
+  MY_VARIABLE: ${self:custom.kmsSecrets.secrets.MY_VARIABLE}
