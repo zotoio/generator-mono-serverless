@@ -125,7 +125,7 @@ module.exports = class extends Generator {
 
         this.fs.copy(this.templatePath('encrypt.sh'), this.destinationPath(`${this.props.packagePath}/encrypt.sh`));
 
-        ['tsconfig.json', 'tslint.json', `.envExample-${this.props.provider}`].forEach(fileName => {
+        ['tsconfig.json', 'tslint.json'].forEach(fileName => {
             this.fs.copy(this.templatePath(fileName), this.destinationPath(`${this.props.packagePath}/${fileName}`));
         });
 
