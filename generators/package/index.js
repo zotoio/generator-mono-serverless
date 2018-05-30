@@ -123,6 +123,8 @@ module.exports = class extends Generator {
             this.destinationPath(`${this.props.packagePath}/src/index.spec.ts`)
         );
 
+        this.fs.copy(this.templatePath('encrypt.sh'), this.destinationPath(`${this.props.packagePath}/encrypt.sh`));
+
         ['tsconfig.json', 'tslint.json', `.envExample-${this.props.provider}`].forEach(fileName => {
             this.fs.copy(this.templatePath(fileName), this.destinationPath(`${this.props.packagePath}/${fileName}`));
         });
@@ -131,14 +133,16 @@ module.exports = class extends Generator {
             this.templatePath(`.envExample-${this.props.provider}`),
             this.destinationPath(`${this.props.packagePath}/.envExample`),
             {
-                kmsEncryptionKeyId: this.props.kmsEncryptionKeyId
+                kmsEncryptionKeyId: this.props.kmsEncryptionKeyId,
+                executionAwsRole: this.props.executionAwsRole
             }
         );
         this.fs.copyTpl(
             this.templatePath(`.envExample-${this.props.provider}`),
             this.destinationPath(`${this.props.packagePath}/.env`),
             {
-                kmsEncryptionKeyId: this.props.kmsEncryptionKeyId
+                kmsEncryptionKeyId: this.props.kmsEncryptionKeyId,
+                executionAwsRole: this.props.executionAwsRole
             }
         );
 
@@ -200,7 +204,8 @@ module.exports = class extends Generator {
                 ddbTableName: this.props.ddbTableName,
                 useDomainManager: this.props.useDomainManager,
                 useAliases: this.props.useAliases,
-                executionAwsRole: this.props.executionAwsRole
+                executionAwsRole: this.props.executionAwsRole,
+                kmsEncryptionKeyId: this.props.kmsEncryptionKeyId
             }
         );
 
@@ -214,7 +219,8 @@ module.exports = class extends Generator {
                         name: this.props.packageName,
                         ddbTableName: this.props.ddbTableName,
                         useDomainManager: this.props.useDomainManager,
-                        useAliases: this.props.useAliases
+                        useAliases: this.props.useAliases,
+                        kmsEncryptionKeyId: this.props.kmsEncryptionKeyId
                     }
                 );
             });

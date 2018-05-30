@@ -1,7 +1,9 @@
 service: <%= name %>
 
 plugins:
+<% if (kmsEncryptionKeyId) { -%>
   - serverless-kms-secrets
+<% } -%>
   - serverless-plugin-typescript
   - serverless-webpack
 <% if (ddbTableName) { -%>
@@ -30,7 +32,7 @@ provider:
   stackTags: ${file(./serverless-aws-tags.yml):stackTags}
 
 <% if (executionAwsRole) { -%>
-  role: <%= executionAwsRole %>
+  role: ${env:SLS_AWS_EXECUTION_ROLE}
 <% } else { -%>
   iamRoleStatements: ${file(./serverless-aws-iam.yml):iamRoleStatements}
 <% } -%>
@@ -48,7 +50,9 @@ custom:
   webpack:
     webpackConfig: '../../../webpack.config.js'
 
+<% if (kmsEncryptionKeyId) { -%>
   kmsSecrets: ${file(kms-secrets.${opt:stage, self:provider.stage}.${opt:region, self:provider.region}.yml)}
+<% } -%>
 
 <% if (ddbTableName) { -%>
   dynamodb:
