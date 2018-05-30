@@ -3,6 +3,8 @@
 import { Handler, Context, Callback } from 'aws-lambda';
 import 'source-map-support/register';
 import * as AWS from 'aws-sdk';
+import * as bunyan from 'bunyan';
+let log = bunyan.createLogger({name: '<%= name %>'});
 
 interface ApiResponse {
     statusCode: number;
@@ -17,7 +19,7 @@ const handler: Handler = (event: any, context: Context, callback: Callback) => {
         body: JSON.stringify(event)
     };
 
-    console.log('use console log, and view cloudwatch logs');
+    log.info('use log.info/warn/error/debug, and view cloudwatch logs');
 
     callback(undefined, response);
 };

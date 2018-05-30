@@ -1,0 +1,11 @@
+iamRoleStatements:
+  # roles
+<% if (ddbTableName) { -%>
+  - Effect: Allow
+    Action:
+      - dynamodb:UpdateItem
+      - dynamodb:Query
+      - dynamodb:PutItem
+    Resource:
+      Fn::GetAtt: [ <%= ddbTableName %>, Arn ]
+<% } -%>

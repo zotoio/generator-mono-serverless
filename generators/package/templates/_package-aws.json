@@ -12,6 +12,7 @@
         "prebuild": "yarn run clean",
         "predev": "yarn run clean",
         "test": "jest -c ../../jest.json --coverage",
+        "pretest": "nsp check",
         "sls-deploy":
             "yarn run build && node --require ../../dotenv.js ../../node_modules/serverless/bin/serverless deploy -v",
         "sls-offline":
@@ -24,7 +25,7 @@
             "node --require ../../dotenv.js  ../../node_modules/serverless/bin/serverless logs -v -t",
         "sls-info":
             "node --require ../../dotenv.js  ../../node_modules/serverless/bin/serverless info"
-        <% if (ddbTableName) { %>
+<% if (ddbTableName) { -%>
         ,
         "sls-dynamodb-install":
             "node --require ../../dotenv.js  ../../node_modules/serverless/bin/serverless dynamodb install",
@@ -32,6 +33,13 @@
             "node --require ../../dotenv.js  ../../node_modules/serverless/bin/serverless dynamodb start --migrate",
         "sls-dynamodb-remove":
             "node --require ../../dotenv.js  ../../node_modules/serverless/bin/serverless dynamodb remove"
-        <% } %>
+<% } -%>
+<% if (kmsEncryptionKeyId) { -%>
+        ,
+        "sls-encrypt":
+            "chmod 755 ./encrypt.sh && ./encrypt.sh",
+        "sls-decrypt":
+            "node --require ../../dotenv.js  ../../node_modules/serverless/bin/serverless decrypt -n"
+<% } -%>
     }
 }

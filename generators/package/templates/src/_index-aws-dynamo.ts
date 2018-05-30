@@ -2,6 +2,8 @@
 
 import { Handler, Context, Callback } from 'aws-lambda';
 import * as AWS from 'aws-sdk';
+import * as bunyan from 'bunyan';
+let log = bunyan.createLogger({name: '<%= name %>'});
 
 interface Response {
     statusCode: number;
@@ -20,7 +22,7 @@ interface Response {
 
 const handler: Handler = async (event: any, context: Context, callback: Callback) => {
     const id = event.pathParameters.id;
-    console.log(`processing request for id: ${id}`);
+    log.info(`processing request for id: ${id}`);
 
     const docClient = await getDocClient();
 
@@ -42,10 +44,10 @@ const handler: Handler = async (event: any, context: Context, callback: Callback
         .promise()
         .then(
             () => {
-                console.log(`PutItem succeeded:  ${event.requestContext.requestId}`);
+                log.info(`PutItem succeeded:  ${event.requestContext.requestId}`);
             },
             (err: any) => {
-                console.log(`Unable to Put item. Error: ${JSON.stringify(err)}`);
+                log.info(`Unable to Put item. Error: ${JSON.stringify(err)}`);
             }
         );
 
@@ -65,11 +67,11 @@ const handler: Handler = async (event: any, context: Context, callback: Callback
         .promise()
         .then(
             (data: any) => {
-                console.log('Query succeeded.');
+                log.info('Query succeeded.');
                 const results: any = [];
                 if (data.Items) {
                     data.Items.forEach((item: any) => {
-                        console.log(item);
+                        log.info(item);
                         results.push(item);
                     });
                 }
@@ -77,7 +79,7 @@ const handler: Handler = async (event: any, context: Context, callback: Callback
             },
             (err: any) => {
                 response.body = `Unable to query. Error: ${JSON.stringify(err)}`;
-                console.error(response.body);
+                log.info(response.body);
             }
         );
 

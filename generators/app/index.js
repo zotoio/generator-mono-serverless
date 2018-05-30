@@ -3,6 +3,7 @@ const path = require('path');
 const Generator = require('yeoman-generator');
 const yosay = require('yosay');
 const chalk = require('chalk');
+const _ = require('lodash');
 
 module.exports = class extends Generator {
     constructor(args, opts) {
@@ -40,6 +41,7 @@ module.exports = class extends Generator {
             // To access props later use this.props.someAnswer;
             this.props = props;
             this.props.projectPath = path.join(process.cwd(), this.props.name);
+            _.merge(this.options.__store, this.props);
         });
     }
 
@@ -82,7 +84,9 @@ module.exports = class extends Generator {
 
         this.fs.copyTpl(this.templatePath('_package.json'), this.destinationPath(`${this.props.name}/package.json`), {
             version: this.props.version,
-            name: this.props.name
+            name: this.props.name,
+            homepage: '',
+            packageGenerator: 'mono-serverless:package'
         });
     }
 

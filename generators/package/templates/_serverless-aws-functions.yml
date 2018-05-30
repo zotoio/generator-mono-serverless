@@ -1,0 +1,16 @@
+functions:
+  <%= name %>:
+    handler: src/index.handler
+
+    package:
+      include:
+        - src/**
+
+    events:
+      - http:
+<% if (ddbTableName) { -%>
+          path: <%= name %>/{id}
+<% } else { -%>
+          path: <%= name %>
+<% } -%>
+          method: get

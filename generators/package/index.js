@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const Generator = require('yeoman-generator');
+const _ = require('lodash');
 
 module.exports = class extends Generator {
     constructor(args, opts) {
@@ -29,7 +30,10 @@ module.exports = class extends Generator {
             {
                 type: 'input',
                 name: 'name',
-                message: 'Package name:'
+                message: 'Package name:',
+                validate: function(input) {
+                    return Boolean(input);
+                }
             },
             {
                 type: 'input',
@@ -76,6 +80,26 @@ module.exports = class extends Generator {
                 name: 'useDomainManager',
                 message: `Use custom domain manager?`,
                 default: false
+            },
+            {
+                when: function(response) {
+                    return response.provider === 'aws';
+                },
+                type: 'input',
+                name: 'executionAwsRole',
+                message: 'Lambda execution role ARN (eg. arn:aws:iam::XXXXXX:role/role):',
+                default: '',
+                store: true
+            },
+            {
+                when: function(response) {
+                    return response.provider === 'aws';
+                },
+                type: 'input',
+                name: 'kmsEncryptionKeyId',
+                message: 'KMS key id (ie. uuid from end of ARN):',
+                default: '',
+                store: true
             }
         ];
 
@@ -88,31 +112,38 @@ module.exports = class extends Generator {
             this.props.useDomainManager = props.useDomainManager || false;
             this.props.useAliases = props.useAliases || false;
             this.props.provider = props.provider || 'aws';
+
+            _.merge(this.options.__store, this.props);
         });
     }
 
     writing() {
         this.fs.copy(
-            this.templatePath('__tests__/index.test.ts'),
-            this.destinationPath(`${this.props.packagePath}/__tests__/index.test.ts`)
-        );
-
-        this.fs.copy(
             this.templatePath('src/index.spec.ts'),
             this.destinationPath(`${this.props.packagePath}/src/index.spec.ts`)
         );
+
+        this.fs.copy(this.templatePath('encrypt.sh'), this.destinationPath(`${this.props.packagePath}/encrypt.sh`));
 
         ['tsconfig.json', 'tslint.json', `.envExample-${this.props.provider}`].forEach(fileName => {
             this.fs.copy(this.templatePath(fileName), this.destinationPath(`${this.props.packagePath}/${fileName}`));
         });
 
-        this.fs.copy(
+        this.fs.copyTpl(
             this.templatePath(`.envExample-${this.props.provider}`),
-            this.destinationPath(`${this.props.packagePath}/.envExample`)
+            this.destinationPath(`${this.props.packagePath}/.envExample`),
+            {
+                kmsEncryptionKeyId: this.props.kmsEncryptionKeyId,
+                executionAwsRole: this.props.executionAwsRole
+            }
         );
-        this.fs.copy(
+        this.fs.copyTpl(
             this.templatePath(`.envExample-${this.props.provider}`),
-            this.destinationPath(`${this.props.packagePath}/.env`)
+            this.destinationPath(`${this.props.packagePath}/.env`),
+            {
+                kmsEncryptionKeyId: this.props.kmsEncryptionKeyId,
+                executionAwsRole: this.props.executionAwsRole
+            }
         );
 
         if (this.props.provider === 'google') {
@@ -135,7 +166,8 @@ module.exports = class extends Generator {
             {
                 version: this.props.version,
                 name: this.props.packageName,
-                ddbTableName: this.props.ddbTableName
+                ddbTableName: this.props.ddbTableName,
+                kmsEncryptionKeyId: this.props.kmsEncryptionKeyId
             }
         );
 
@@ -171,9 +203,28 @@ module.exports = class extends Generator {
                 name: this.props.packageName,
                 ddbTableName: this.props.ddbTableName,
                 useDomainManager: this.props.useDomainManager,
-                useAliases: this.props.useAliases
+                useAliases: this.props.useAliases,
+                executionAwsRole: this.props.executionAwsRole,
+                kmsEncryptionKeyId: this.props.kmsEncryptionKeyId
             }
         );
+
+        if (this.props.provider === 'aws') {
+            ['functions', 'iam', 'resources', 'tags', 'environment'].forEach(item => {
+                this.fs.copyTpl(
+                    this.templatePath(`_serverless-aws-${item}.yml`),
+                    this.destinationPath(`${this.props.packagePath}/serverless-aws-${item}.yml`),
+                    {
+                        version: this.props.version,
+                        name: this.props.packageName,
+                        ddbTableName: this.props.ddbTableName,
+                        useDomainManager: this.props.useDomainManager,
+                        useAliases: this.props.useAliases,
+                        kmsEncryptionKeyId: this.props.kmsEncryptionKeyId
+                    }
+                );
+            });
+        }
     }
 
     install() {

@@ -44,11 +44,7 @@ describe('generator-mono-serverless:package', () => {
             .withOptions({ 'skip-bootstrap': true })
             .withPrompts({ name: appName, version: appVersion })
             .then(() => {
-                assert.file([
-                    `packages/${appName}/tsconfig.json`,
-                    `packages/${appName}/__tests__/index.test.ts`,
-                    `packages/${appName}/src/index.ts`
-                ]);
+                assert.file([`packages/${appName}/tsconfig.json`, `packages/${appName}/src/index.ts`]);
             });
     });
 });
