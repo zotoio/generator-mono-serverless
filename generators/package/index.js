@@ -133,8 +133,8 @@ module.exports = class extends Generator {
             this.templatePath(`.envExample-${this.props.provider}`),
             this.destinationPath(`${this.props.packagePath}/.envExample`),
             {
-                kmsEncryptionKeyId: this.props.kmsEncryptionKeyId,
-                executionAwsRole: this.props.executionAwsRole
+                kmsEncryptionKeyId: 'f7xxx9-20xf-4x98-bxx5-5xxxxccf8556',
+                executionAwsRole: 'arn:aws:iam::34xxxxxxxx73:role/lambda-execution'
             }
         );
         this.fs.copyTpl(
