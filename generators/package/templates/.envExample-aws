@@ -1,9 +1,19 @@
 # function specific env vars override and extend shared .env
 SLS_AWS_STAGE=dev
 SLS_AWS_REGION=ap-southeast-2
+<% if (ddbTableName) { -%>
+SLS_DYNAMODB_TABLENAME=<%= ddbTableName %>
+<% } -%>
 <% if (kmsEncryptionKeyId) { -%>
 SLS_AWS_KMS_KEY_ID=<%= kmsEncryptionKeyId %>
 <% } -%>
 <% if (executionAwsRole) { -%>
 SLS_AWS_EXECUTION_ROLE=<%= executionAwsRole %>
+<% } -%>
+<% if (apiGatewayAuthorizer) { -%>
+SLS_AWS_API_AUTHORIZER=<%= apiGatewayAuthorizer %>
+<% } -%>
+<% if (s3EventBucket) { -%>
+SLS_AWS_S3_EVENT_BUCKET=<%= s3EventBucket %>
+SLS_AWS_S3_EVENT_TRIGGER=<%= s3EventTrigger %>
 <% } -%>

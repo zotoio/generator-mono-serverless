@@ -62,7 +62,7 @@ custom:
     seed:
       testdata:
         sources:
-          - table: <%= ddbTableName %>
+          - table: ${env:SLS_DYNAMODB_TABLENAME}
             sources: [./<%= ddbTableName %>.seed.json]
 <% } -%>
 

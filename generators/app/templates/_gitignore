@@ -80,3 +80,5 @@ build
 .build
 
 output
+
+.yo-rc.json

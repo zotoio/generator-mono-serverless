@@ -1,7 +1,6 @@
 'use strict';
 const path = require('path');
 const Generator = require('yeoman-generator');
-const yosay = require('yosay');
 const chalk = require('chalk');
 const _ = require('lodash');
 
@@ -21,7 +20,7 @@ module.exports = class extends Generator {
 
     prompting() {
         // Have Yeoman greet the user.
-        this.log(yosay("Let's generate a TypeScript monorepo project!"));
+        // this.log(yosay("Let's generate a TypeScript monorepo project!"));
 
         const prompts = [
             {
