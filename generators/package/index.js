@@ -55,6 +55,13 @@ module.exports = class extends Generator {
                 default: 'aws'
             },
             {
+                type: 'list',
+                name: 'eventTriggerType',
+                message: 'Event trigger type:',
+                choices: ['http', 's3'],
+                default: 'http'
+            },
+            {
                 when: function(response) {
                     return response.provider === 'aws';
                 },
@@ -65,7 +72,29 @@ module.exports = class extends Generator {
             },
             {
                 when: function(response) {
-                    return response.provider === 'aws';
+                    return response.provider === 'aws' && response.eventTriggerType === 's3';
+                },
+                type: 'input',
+                name: 's3EventBucket',
+                message: `S3 event bucket name`,
+                default: '',
+                validate: function(input) {
+                    return Boolean(input);
+                }
+            },
+            {
+                when: function(response) {
+                    return response.provider === 'aws' && response.eventTriggerType === 's3';
+                },
+                type: 'list',
+                name: 's3EventTrigger',
+                message: `S3 event trigger type`,
+                choices: ['s3:ObjectCreated:*', 's3:ObjectRemoved:*'],
+                default: 's3:ObjectCreated:*'
+            },
+            {
+                when: function(response) {
+                    return response.provider === 'aws' && response.eventTriggerType === 'http';
                 },
                 type: 'confirm',
                 name: 'useAliases',
@@ -74,7 +103,7 @@ module.exports = class extends Generator {
             },
             {
                 when: function(response) {
-                    return response.provider === 'aws';
+                    return response.provider === 'aws' && response.eventTriggerType === 'http';
                 },
                 type: 'confirm',
                 name: 'useDomainManager',
@@ -88,6 +117,16 @@ module.exports = class extends Generator {
                 type: 'input',
                 name: 'executionAwsRole',
                 message: 'Lambda execution role ARN (eg. arn:aws:iam::XXXXXX:role/role):',
+                default: '',
+                store: true
+            },
+            {
+                when: function(response) {
+                    return response.provider === 'aws' && response.eventTriggerType === 'http';
+                },
+                type: 'input',
+                name: 'apiGatewayAuthorizer',
+                message: 'API Gateway Authorizer Lambda ARN (eg. arn:aws:lambda:XXXX:function:my-authorizer):',
                 default: '',
                 store: true
             },
@@ -134,7 +173,11 @@ module.exports = class extends Generator {
             this.destinationPath(`${this.props.packagePath}/.envExample`),
             {
                 kmsEncryptionKeyId: 'f7xxx9-20xf-4x98-bxx5-5xxxxccf8556',
-                executionAwsRole: 'arn:aws:iam::34xxxxxxxx73:role/lambda-execution'
+                executionAwsRole: 'arn:aws:iam::34xxxxxxxx73:role/lambda-execution',
+                apiGatewayAuthorizer: 'arn:aws:lambda:XXXX:function:my-authorizer',
+                s3EventBucket: 'myBucket',
+                s3EventTrigger: 's3:ObjectCreated:*',
+                ddbTableName: 'mytablename'
             }
         );
         this.fs.copyTpl(
@@ -142,7 +185,11 @@ module.exports = class extends Generator {
             this.destinationPath(`${this.props.packagePath}/.env`),
             {
                 kmsEncryptionKeyId: this.props.kmsEncryptionKeyId,
-                executionAwsRole: this.props.executionAwsRole
+                executionAwsRole: this.props.executionAwsRole,
+                apiGatewayAuthorizer: this.props.apiGatewayAuthorizer,
+                s3EventBucket: this.props.s3EventBucket,
+                s3EventTrigger: this.props.s3EventTrigger,
+                ddbTableName: this.props.ddbTableName
             }
         );
 
@@ -176,13 +223,23 @@ module.exports = class extends Generator {
             provider: this.props.provider
         });
 
-        if (this.props.ddbTableName) {
+        if (this.props.ddbTableName && !this.props.s3EventBucket) {
             this.fs.copyTpl(
                 this.templatePath(`src/_index-aws-dynamo.ts`),
                 this.destinationPath(`${this.props.packagePath}/src/index.ts`),
                 {
                     name: this.props.packageName,
                     ddbTableName: this.props.ddbTableName
+                }
+            );
+        } else if (this.props.s3EventBucket) {
+            this.fs.copyTpl(
+                this.templatePath(`src/_index-aws-s3.ts`),
+                this.destinationPath(`${this.props.packagePath}/src/index.ts`),
+                {
+                    name: this.props.packageName,
+                    s3EventBucket: this.props.s3EventBucket,
+                    s3EventTrigger: this.props.s3EventTrigger
                 }
             );
         } else {
@@ -205,7 +262,8 @@ module.exports = class extends Generator {
                 useDomainManager: this.props.useDomainManager,
                 useAliases: this.props.useAliases,
                 executionAwsRole: this.props.executionAwsRole,
-                kmsEncryptionKeyId: this.props.kmsEncryptionKeyId
+                kmsEncryptionKeyId: this.props.kmsEncryptionKeyId,
+                apiGatewayAuthorizer: this.props.apiGatewayAuthorizer
             }
         );
 
@@ -220,7 +278,12 @@ module.exports = class extends Generator {
                         ddbTableName: this.props.ddbTableName,
                         useDomainManager: this.props.useDomainManager,
                         useAliases: this.props.useAliases,
-                        kmsEncryptionKeyId: this.props.kmsEncryptionKeyId
+                        kmsEncryptionKeyId: this.props.kmsEncryptionKeyId,
+                        eventTriggerType: this.props.eventTriggerType,
+                        s3EventBucket: this.props.s3EventBucket,
+                        s3EventTrigger: this.props.s3EventTrigger,
+                        apiGatewayAuthorizer: this.props.apiGatewayAuthorizer,
+                        executionAwsRole: this.props.executionAwsRole
                     }
                 );
             });

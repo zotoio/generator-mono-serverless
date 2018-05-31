@@ -4,7 +4,7 @@ resources:
     <%= ddbTableName %>:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: <%= ddbTableName %>
+        TableName: ${env:SLS_DYNAMODB_TABLENAME}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S

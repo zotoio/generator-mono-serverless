@@ -1,5 +1,21 @@
 environment:
   HERITAGE: generator-mono-serverless:package
 <% if (kmsEncryptionKeyId) { -%>
+  SLS_AWS_KMS_KEY_ID: ${env:SLS_AWS_KMS_KEY_ID}
+<% } -%>
+<% if (executionAwsRole) { -%>
+  SLS_AWS_EXECUTION_ROLE: ${env:SLS_AWS_EXECUTION_ROLE}
+<% } -%>
+<% if (s3EventBucket) { -%>
+  SLS_AWS_S3_EVENT_BUCKET: ${env:SLS_AWS_S3_EVENT_BUCKET}
+  SLS_AWS_S3_EVENT_TRIGGER: ${env:SLS_AWS_S3_EVENT_TRIGGER}
+<% } -%>
+<% if (ddbTableName) { -%>
+  SLS_DYNAMODB_TABLENAME: ${env:SLS_DYNAMODB_TABLENAME}
+<% } -%>
+<% if (apiGatewayAuthorizer) { -%>
+  SLS_AWS_API_AUTHORIZER: ${env:SLS_AWS_API_AUTHORIZER}
+<% } -%>
+<% if (kmsEncryptionKeyId) { -%>
   # MY_VARIABLE: ${self:custom.kmsSecrets.secrets.MY_VARIABLE}
 <% } -%>

@@ -7,5 +7,5 @@ iamRoleStatements:
       - dynamodb:Query
       - dynamodb:PutItem
     Resource:
-      Fn::GetAtt: [ <%= ddbTableName %>, Arn ]
+      Fn::GetAtt: [ ${env:SLS_DYNAMODB_TABLENAME}, Arn ]
 <% } -%>

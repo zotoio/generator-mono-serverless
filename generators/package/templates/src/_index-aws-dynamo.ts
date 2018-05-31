@@ -32,7 +32,7 @@ const handler: Handler = async (event: any, context: Context, callback: Callback
     };
 
     const putParams = {
-        TableName: '<%= ddbTableName %>',
+        TableName: process.env.SLS_DYNAMODB_TABLENAME,
         Item: {
             id: event.requestContext.requestId,
             data: event.headers
@@ -52,7 +52,7 @@ const handler: Handler = async (event: any, context: Context, callback: Callback
         );
 
     const queryParams = {
-        TableName: '<%= ddbTableName %>',
+        TableName: process.env.SLS_DYNAMODB_TABLENAME,
         KeyConditionExpression: '#id = :id',
         ExpressionAttributeNames: {
             '#id': 'id'

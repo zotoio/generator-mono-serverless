@@ -7,6 +7,8 @@ functions:
         - src/**
 
     events:
+<% switch (eventTriggerType) {
+    case 'http' : -%>
       - http:
 <% if (ddbTableName) { -%>
           path: <%= name %>/{id}
@@ -14,3 +16,15 @@ functions:
           path: <%= name %>
 <% } -%>
           method: get
+<% if (apiGatewayAuthorizer) { -%>
+          authorizer:
+            type: request
+            arn: ${env:SLS_AWS_API_AUTHORIZER}
+<% } -%>
+<% break;
+    case 's3' : -%>
+      - s3:
+          bucket: ${env:SLS_AWS_S3_EVENT_BUCKET}
+          event: ${env:SLS_AWS_S3_EVENT_TRIGGER}
+<% break;
+} -%>
