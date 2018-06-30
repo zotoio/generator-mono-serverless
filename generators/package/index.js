@@ -214,6 +214,7 @@ module.exports = class extends Generator {
                 version: this.props.version,
                 name: this.props.packageName,
                 ddbTableName: this.props.ddbTableName,
+                eventTriggerType: this.props.eventTriggerType,
                 kmsEncryptionKeyId: this.props.kmsEncryptionKeyId
             }
         );
@@ -222,6 +223,17 @@ module.exports = class extends Generator {
             name: this.props.packageName,
             provider: this.props.provider
         });
+
+        if (this.props.eventTriggerType === 'http') {
+            this.fs.copyTpl(
+                this.templatePath('_artillery.yml'),
+                this.destinationPath(`${this.props.packagePath}/_artillery.yml`),
+                {
+                    name: this.props.packageName,
+                    provider: this.props.provider
+                }
+            );
+        }
 
         if (this.props.ddbTableName && !this.props.s3EventBucket) {
             this.fs.copyTpl(
