@@ -2,6 +2,10 @@ functions:
   <%= name %>:
     handler: src/index.handler
 
+<% if (snsErrorTopicArn) { -%>
+    onError: ${env:SLS_SNS_ERROR_TOPIC_ARN}
+<% } -%>
+
     package:
       include:
         - src/**

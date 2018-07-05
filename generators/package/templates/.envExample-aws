@@ -2,6 +2,9 @@
 SLS_AWS_STAGE=dev
 SLS_AWS_REGION=ap-southeast-2
 SLS_APIGW_ENDPOINT_TYPE=EDGE
+<% if (snsErrorTopicArn) { -%>
+SLS_SNS_ERROR_TOPIC_ARN=<%= snsErrorTopicArn %>
+<% } -%>
 <% if (deploymentBucketPrefix) { -%>
 SLS_DEPLOYMENT_S3_BUCKET_PREFIX=<%= deploymentBucketPrefix %>
 <% } -%>

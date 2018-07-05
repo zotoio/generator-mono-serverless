@@ -148,6 +148,16 @@ module.exports = class extends Generator {
                 message: 'KMS key id (ie. uuid from end of ARN):',
                 default: '',
                 store: true
+            },
+            {
+                when: function(response) {
+                    return response.provider === 'aws';
+                },
+                type: 'input',
+                name: 'snsErrorTopicArn',
+                message: 'Arn of SNS topic to notify on function failure:',
+                default: '',
+                store: true
             }
         ];
 
@@ -187,7 +197,8 @@ module.exports = class extends Generator {
                 s3EventBucket: 'myBucket',
                 s3EventTrigger: 's3:ObjectCreated:*',
                 ddbTableName: 'mytablename',
-                deploymentBucketPrefix: 'au.com.somedomain'
+                deploymentBucketPrefix: 'au.com.somedomain',
+                snsErrorTopicArn: 'arn:aws:sns:ap-southeast-2:XXXXXX:sns-topic'
             }
         );
         this.fs.copyTpl(
@@ -200,7 +211,8 @@ module.exports = class extends Generator {
                 s3EventBucket: this.props.s3EventBucket,
                 s3EventTrigger: this.props.s3EventTrigger,
                 ddbTableName: this.props.ddbTableName,
-                deploymentBucketPrefix: this.props.deploymentBucketPrefix
+                deploymentBucketPrefix: this.props.deploymentBucketPrefix,
+                snsErrorTopicArn: this.props.snsErrorTopicArn
             }
         );
 
@@ -287,7 +299,8 @@ module.exports = class extends Generator {
                 executionAwsRole: this.props.executionAwsRole,
                 kmsEncryptionKeyId: this.props.kmsEncryptionKeyId,
                 apiGatewayAuthorizer: this.props.apiGatewayAuthorizer,
-                deploymentBucketPrefix: this.props.deploymentBucketPrefix
+                deploymentBucketPrefix: this.props.deploymentBucketPrefix,
+                snsErrorTopicArn: this.props.snsErrorTopicArn
             }
         );
 
@@ -308,7 +321,8 @@ module.exports = class extends Generator {
                         s3EventTrigger: this.props.s3EventTrigger,
                         apiGatewayAuthorizer: this.props.apiGatewayAuthorizer,
                         executionAwsRole: this.props.executionAwsRole,
-                        deploymentBucketPrefix: this.props.deploymentBucketPrefix
+                        deploymentBucketPrefix: this.props.deploymentBucketPrefix,
+                        snsErrorTopicArn: this.props.snsErrorTopicArn
                     }
                 );
             });
