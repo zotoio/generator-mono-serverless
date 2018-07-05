@@ -158,6 +158,62 @@ module.exports = class extends Generator {
                 message: 'Arn of SNS topic to notify on function failure:',
                 default: '',
                 store: true
+            },
+            {
+                when: function(response) {
+                    return response.provider === 'aws';
+                },
+                type: 'confirm',
+                name: 'useVpc',
+                message: 'Use VPC deployment mode?',
+                default: true,
+                store: true
+            },
+            {
+                when: function(response) {
+                    return response.useVpc;
+                },
+                type: 'input',
+                name: 'securityGroupId',
+                message: 'VPC security group id',
+                default: '',
+                store: true,
+                validate: function(input) {
+                    return Boolean(input);
+                }
+            },
+            {
+                when: function(response) {
+                    return response.useVpc;
+                },
+                type: 'input',
+                name: 'vpcSubnetA',
+                message: 'Subnet A',
+                default: '',
+                store: true,
+                validate: function(input) {
+                    return Boolean(input);
+                }
+            },
+            {
+                when: function(response) {
+                    return response.useVpc;
+                },
+                type: 'input',
+                name: 'vpcSubnetB',
+                message: 'Subnet B',
+                default: '',
+                store: true
+            },
+            {
+                when: function(response) {
+                    return response.useVpc;
+                },
+                type: 'input',
+                name: 'vpcSubnetC',
+                message: 'Subnet C',
+                default: '',
+                store: true
             }
         ];
 
@@ -198,7 +254,12 @@ module.exports = class extends Generator {
                 s3EventTrigger: 's3:ObjectCreated:*',
                 ddbTableName: 'mytablename',
                 deploymentBucketPrefix: 'au.com.somedomain',
-                snsErrorTopicArn: 'arn:aws:sns:ap-southeast-2:XXXXXX:sns-topic'
+                snsErrorTopicArn: 'arn:aws:sns:ap-southeast-2:XXXXXX:sns-topic',
+                useVpc: true,
+                securityGroupId: 'sg-089787d9f99',
+                vpcSubnetA: 'subnet-aaaaa',
+                vpcSubnetB: 'subnet-bbbbb',
+                vpcSubnetC: 'subnet-ccccc'
             }
         );
         this.fs.copyTpl(
@@ -212,7 +273,12 @@ module.exports = class extends Generator {
                 s3EventTrigger: this.props.s3EventTrigger,
                 ddbTableName: this.props.ddbTableName,
                 deploymentBucketPrefix: this.props.deploymentBucketPrefix,
-                snsErrorTopicArn: this.props.snsErrorTopicArn
+                snsErrorTopicArn: this.props.snsErrorTopicArn,
+                useVpc: this.props.useVpc,
+                securityGroupId: this.props.securityGroupId,
+                vpcSubnetA: this.props.vpcSubnetA,
+                vpcSubnetB: this.props.vpcSubnetB,
+                vpcSubnetC: this.props.vpcSubnetC
             }
         );
 
@@ -300,7 +366,8 @@ module.exports = class extends Generator {
                 kmsEncryptionKeyId: this.props.kmsEncryptionKeyId,
                 apiGatewayAuthorizer: this.props.apiGatewayAuthorizer,
                 deploymentBucketPrefix: this.props.deploymentBucketPrefix,
-                snsErrorTopicArn: this.props.snsErrorTopicArn
+                snsErrorTopicArn: this.props.snsErrorTopicArn,
+                useVpc: this.props.useVpc
             }
         );
 
@@ -326,6 +393,20 @@ module.exports = class extends Generator {
                     }
                 );
             });
+        }
+
+        if (this.props.provider === 'aws' && this.props.useVpc) {
+            this.fs.copyTpl(
+                this.templatePath(`_serverless-aws-vpc.yml`),
+                this.destinationPath(`${this.props.packagePath}/serverless-aws-vpc.yml`),
+                {
+                    useVpc: this.props.useVpc,
+                    securityGroupId: this.props.securityGroupId,
+                    vpcSubnetA: this.props.vpcSubnetA,
+                    vpcSubnetB: this.props.vpcSubnetB,
+                    vpcSubnetC: this.props.vpcSubnetC
+                }
+            );
         }
     }
 

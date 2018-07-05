@@ -24,3 +24,9 @@ SLS_AWS_API_AUTHORIZER=<%= apiGatewayAuthorizer %>
 SLS_AWS_S3_EVENT_BUCKET=<%= s3EventBucket %>
 SLS_AWS_S3_EVENT_TRIGGER=<%= s3EventTrigger %>
 <% } -%>
+<% if (useVpc) { -%>
+SLS_VPC_SECURITY_GROUP_ID=<%= securityGroupId %>
+SLS_VPC_SUBNET_A=<%= vpcSubnetA %>
+SLS_VPC_SUBNET_B=<%= vpcSubnetB %>
+SLS_VPC_SUBNET_C=<%= vpcSubnetC %>
+<% } -%>

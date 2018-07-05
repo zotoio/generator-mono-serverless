@@ -44,6 +44,10 @@ provider:
   iamRoleStatements: ${file(./serverless-aws-iam.yml):iamRoleStatements}
 <% } -%>
 
+<% if (useVpc) { -%>
+  vpc: ${file(./serverless-aws-vpc-${self:provider.stage}.yml):vpc, file(./serverless-aws-vpc.yml):vpc}
+<% } -%>
+
 package:
   individually: true
   exclude:

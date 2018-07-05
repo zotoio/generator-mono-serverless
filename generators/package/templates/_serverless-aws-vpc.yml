@@ -1,0 +1,11 @@
+vpc:
+  securityGroupIds:
+    - ${env:SLS_VPC_SECURITY_GROUP_ID}
+  subnetIds:
+    - ${env:SLS_VPC_SUBNET_A}
+<% if (vpcSubnetB) { -%>
+    - ${env:SLS_VPC_SUBNET_B}
+<% } -%>
+<% if (vpcSubnetC) { -%>
+    - ${env:SLS_VPC_SUBNET_C}
+<% } -%>
