@@ -1,6 +1,6 @@
 iamRoleStatements:
   # roles
-<% if (ddbTableName) { -%>
+<% if (ddbTableName && !executionAwsRole) { -%>
   - Effect: Allow
     Action:
       - dynamodb:UpdateItem
