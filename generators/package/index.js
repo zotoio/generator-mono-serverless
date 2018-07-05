@@ -389,7 +389,8 @@ module.exports = class extends Generator {
                         apiGatewayAuthorizer: this.props.apiGatewayAuthorizer,
                         executionAwsRole: this.props.executionAwsRole,
                         deploymentBucketPrefix: this.props.deploymentBucketPrefix,
-                        snsErrorTopicArn: this.props.snsErrorTopicArn
+                        snsErrorTopicArn: this.props.snsErrorTopicArn,
+                        useVpc: this.props.useVpc
                     }
                 );
             });

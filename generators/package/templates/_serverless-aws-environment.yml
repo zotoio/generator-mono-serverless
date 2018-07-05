@@ -25,6 +25,9 @@ environment:
 <% if (apiGatewayAuthorizer) { -%>
   SLS_AWS_API_AUTHORIZER: ${env:SLS_AWS_API_AUTHORIZER}
 <% } -%>
-<% if (kmsEncryptionKeyId) { -%>
-  # MY_VARIABLE: ${self:custom.kmsSecrets.secrets.MY_VARIABLE}
+<% if (useVpc) { -%>
+  SLS_VPC_SECURITY_GROUP_ID: ${env:SLS_VPC_SECURITY_GROUP_ID}
+  SLS_VPC_SUBNET_A: ${env:SLS_VPC_SUBNET_A}
+  SLS_VPC_SUBNET_B: ${env:SLS_VPC_SUBNET_B}
+  SLS_VPC_SUBNET_C: ${env:SLS_VPC_SUBNET_C}
 <% } -%>
