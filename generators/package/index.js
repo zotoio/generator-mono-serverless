@@ -256,6 +256,7 @@ module.exports = class extends Generator {
                 deploymentBucketPrefix: 'au.com.somedomain',
                 snsErrorTopicArn: 'arn:aws:sns:ap-southeast-2:XXXXXX:sns-topic',
                 useVpc: true,
+                apiGatewayEndpointType: 'PRIVATE',
                 securityGroupId: 'sg-089787d9f99',
                 vpcSubnetA: 'subnet-aaaaa',
                 vpcSubnetB: 'subnet-bbbbb',
@@ -278,7 +279,8 @@ module.exports = class extends Generator {
                 securityGroupId: this.props.securityGroupId,
                 vpcSubnetA: this.props.vpcSubnetA,
                 vpcSubnetB: this.props.vpcSubnetB,
-                vpcSubnetC: this.props.vpcSubnetC
+                vpcSubnetC: this.props.vpcSubnetC,
+                apiGatewayEndpointType: this.props.useVpc ? 'PRIVATE' : 'EDGE'
             }
         );
 
