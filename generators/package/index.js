@@ -115,6 +115,15 @@ module.exports = class extends Generator {
                     return response.provider === 'aws';
                 },
                 type: 'input',
+                name: 'deploymentBucketPrefix',
+                message: `Deployment bucket prefix. Each stage bucket must exist if supplied, eg [prefix].serverless.[dev|test|prod]`,
+                store: true
+            },
+            {
+                when: function(response) {
+                    return response.provider === 'aws';
+                },
+                type: 'input',
                 name: 'executionAwsRole',
                 message: 'Lambda execution role ARN (eg. arn:aws:iam::XXXXXX:role/role):',
                 default: '',
@@ -177,7 +186,8 @@ module.exports = class extends Generator {
                 apiGatewayAuthorizer: 'arn:aws:lambda:XXXX:function:my-authorizer',
                 s3EventBucket: 'myBucket',
                 s3EventTrigger: 's3:ObjectCreated:*',
-                ddbTableName: 'mytablename'
+                ddbTableName: 'mytablename',
+                deploymentBucketPrefix: 'au.com.somedomain'
             }
         );
         this.fs.copyTpl(
@@ -189,7 +199,8 @@ module.exports = class extends Generator {
                 apiGatewayAuthorizer: this.props.apiGatewayAuthorizer,
                 s3EventBucket: this.props.s3EventBucket,
                 s3EventTrigger: this.props.s3EventTrigger,
-                ddbTableName: this.props.ddbTableName
+                ddbTableName: this.props.ddbTableName,
+                deploymentBucketPrefix: this.props.deploymentBucketPrefix
             }
         );
 
@@ -275,7 +286,8 @@ module.exports = class extends Generator {
                 useAliases: this.props.useAliases,
                 executionAwsRole: this.props.executionAwsRole,
                 kmsEncryptionKeyId: this.props.kmsEncryptionKeyId,
-                apiGatewayAuthorizer: this.props.apiGatewayAuthorizer
+                apiGatewayAuthorizer: this.props.apiGatewayAuthorizer,
+                deploymentBucketPrefix: this.props.deploymentBucketPrefix
             }
         );
 
@@ -295,7 +307,8 @@ module.exports = class extends Generator {
                         s3EventBucket: this.props.s3EventBucket,
                         s3EventTrigger: this.props.s3EventTrigger,
                         apiGatewayAuthorizer: this.props.apiGatewayAuthorizer,
-                        executionAwsRole: this.props.executionAwsRole
+                        executionAwsRole: this.props.executionAwsRole,
+                        deploymentBucketPrefix: this.props.deploymentBucketPrefix
                     }
                 );
             });

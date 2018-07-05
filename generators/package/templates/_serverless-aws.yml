@@ -24,6 +24,13 @@ provider:
   memorySize: 1024 # optional, in MB, default is 1024
   timeout: 6 # optional, in seconds, default is 6
 
+<% if (deploymentBucketPrefix) { -%>
+  deploymentBucket:
+    name: ${env:SLS_DEPLOYMENT_S3_BUCKET_PREFIX}.serverless.${self:provider.stage}
+<% } -%>
+
+  endpointType: ${env:SLS_APIGW_ENDPOINT_TYPE}
+
   stage: ${env:SLS_AWS_STAGE}
   region: ${env:SLS_AWS_REGION}
 

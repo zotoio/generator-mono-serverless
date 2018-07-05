@@ -1,5 +1,11 @@
 environment:
   HERITAGE: generator-mono-serverless:package
+  SLS_AWS_STAGE: ${env:SLS_AWS_STAGE, 'dev'}
+  SLS_AWS_REGION: ${env:SLS_AWS_REGION, 'ap-southeast-2'}
+  SLS_APIGW_ENDPOINT_TYPE: ${env:SLS_APIGW_ENDPOINT_TYPE, 'EDGE'}
+<% if (deploymentBucketPrefix) { -%>
+  SLS_DEPLOYMENT_S3_BUCKET_PREFIX: ${env:SLS_DEPLOYMENT_S3_BUCKET_PREFIX}
+<% } -%>
 <% if (kmsEncryptionKeyId) { -%>
   SLS_AWS_KMS_KEY_ID: ${env:SLS_AWS_KMS_KEY_ID}
 <% } -%>

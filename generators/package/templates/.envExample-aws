@@ -1,6 +1,10 @@
 # function specific env vars override and extend shared .env
 SLS_AWS_STAGE=dev
 SLS_AWS_REGION=ap-southeast-2
+SLS_APIGW_ENDPOINT_TYPE=EDGE
+<% if (deploymentBucketPrefix) { -%>
+SLS_DEPLOYMENT_S3_BUCKET_PREFIX=<%= deploymentBucketPrefix %>
+<% } -%>
 <% if (ddbTableName) { -%>
 SLS_DYNAMODB_TABLENAME=<%= ddbTableName %>
 <% } -%>
