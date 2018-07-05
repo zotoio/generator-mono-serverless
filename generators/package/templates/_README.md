@@ -1,2 +1,2 @@
 # <%= name %>
-This <%=provider%> function is used for `<todo>`..
+This <%=provider%> function is used for `<todo>`.
