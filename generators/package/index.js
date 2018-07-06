@@ -174,8 +174,21 @@ module.exports = class extends Generator {
                     return response.useVpc;
                 },
                 type: 'input',
+                name: 'vpcId',
+                message: 'VPC id (eg. vpc-291872309780)',
+                default: '',
+                store: true,
+                validate: function(input) {
+                    return Boolean(input);
+                }
+            },
+            {
+                when: function(response) {
+                    return response.useVpc;
+                },
+                type: 'input',
                 name: 'securityGroupId',
-                message: 'VPC security group id',
+                message: 'VPC security group id (eg. sg-123141223122)',
                 default: '',
                 store: true,
                 validate: function(input) {
@@ -188,7 +201,7 @@ module.exports = class extends Generator {
                 },
                 type: 'input',
                 name: 'vpcSubnetA',
-                message: 'Subnet A',
+                message: 'Subnet A (eg. subnet-11398827340)',
                 default: '',
                 store: true,
                 validate: function(input) {
@@ -201,7 +214,7 @@ module.exports = class extends Generator {
                 },
                 type: 'input',
                 name: 'vpcSubnetB',
-                message: 'Subnet B',
+                message: 'Subnet B (eg. subnet-12398827340)',
                 default: '',
                 store: true
             },
@@ -211,7 +224,7 @@ module.exports = class extends Generator {
                 },
                 type: 'input',
                 name: 'vpcSubnetC',
-                message: 'Subnet C',
+                message: 'Subnet C (eg. subnet-13398827340)',
                 default: '',
                 store: true
             }
@@ -256,6 +269,7 @@ module.exports = class extends Generator {
                 deploymentBucketPrefix: 'au.com.somedomain',
                 snsErrorTopicArn: 'arn:aws:sns:ap-southeast-2:XXXXXX:sns-topic',
                 useVpc: true,
+                vpcId: 'vpc-194823094820389',
                 apiGatewayEndpointType: 'PRIVATE',
                 securityGroupId: 'sg-089787d9f99',
                 vpcSubnetA: 'subnet-aaaaa',
@@ -276,6 +290,7 @@ module.exports = class extends Generator {
                 deploymentBucketPrefix: this.props.deploymentBucketPrefix,
                 snsErrorTopicArn: this.props.snsErrorTopicArn,
                 useVpc: this.props.useVpc,
+                vpcId: this.props.vpcId,
                 securityGroupId: this.props.securityGroupId,
                 vpcSubnetA: this.props.vpcSubnetA,
                 vpcSubnetB: this.props.vpcSubnetB,
@@ -392,7 +407,8 @@ module.exports = class extends Generator {
                         executionAwsRole: this.props.executionAwsRole,
                         deploymentBucketPrefix: this.props.deploymentBucketPrefix,
                         snsErrorTopicArn: this.props.snsErrorTopicArn,
-                        useVpc: this.props.useVpc
+                        useVpc: this.props.useVpc,
+                        vpcId: this.props.vpcId
                     }
                 );
             });

@@ -29,8 +29,6 @@ provider:
     name: ${env:SLS_DEPLOYMENT_S3_BUCKET_PREFIX}.serverless.${self:provider.stage}
 <% } -%>
 
-  endpointType: ${env:SLS_APIGW_ENDPOINT_TYPE}
-
   stage: ${env:SLS_AWS_STAGE}
   region: ${env:SLS_AWS_REGION}
 
@@ -46,6 +44,18 @@ provider:
 
 <% if (useVpc) { -%>
   vpc: ${file(./serverless-aws-vpc-${self:provider.stage}.yml):vpc, file(./serverless-aws-vpc.yml):vpc}
+  endpointType: PRIVATE
+  resourcePolicy:
+    - Effect: Allow
+      Principal: "*"
+      Action: execute-api:Invoke
+      Resource:
+        - execute-api:/*/*/*
+      Condition:
+        StringEquals:
+          aws:SourceVpc: ${env:SLS_VPC_ID}
+<% } else { -%>
+  endpointType: ${env:SLS_APIGW_ENDPOINT_TYPE}
 <% } -%>
 
 package:
