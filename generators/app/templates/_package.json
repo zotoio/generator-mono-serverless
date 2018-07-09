@@ -20,7 +20,6 @@
         "lodash": "^4.17.5",
         "nsp": "^3.2.1",
         "prettier": "^1.12.1",
-        "semantic-release": "^15.0.0",
         "serverless": "^1.28.0",
         "serverless-aws-alias": "^1.7.1",
         "serverless-aws-documentation": "^1.1.0",
