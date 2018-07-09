@@ -12,7 +12,6 @@
         "prebuild": "yarn run clean",
         "predev": "yarn run clean",
         "test": "jest -c ../../jest.json --coverage",
-        "pretest": "nsp check",
         "sls-deploy":
             "yarn run build && node --require ../../dotenv.js ../../node_modules/serverless/bin/serverless deploy -v",
         "sls-offline":
