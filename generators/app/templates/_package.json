@@ -19,6 +19,7 @@
         "lerna": "^2.4.0",
         "lodash": "^4.17.5",
         "prettier": "^1.12.1",
+        "proxy-agent": "^3.0.1",
         "serverless": "^1.28.0",
         "serverless-aws-alias": "^1.7.1",
         "serverless-aws-documentation": "^1.1.0",

@@ -9,6 +9,9 @@ environment:
 <% if (deploymentBucketPrefix) { -%>
   SLS_DEPLOYMENT_S3_BUCKET_PREFIX: ${env:SLS_DEPLOYMENT_S3_BUCKET_PREFIX}
 <% } -%>
+<% if (kmsEncryptionKeyIdBucket) { -%>
+  SLS_DEPLOYMENT_BUCKET_KMS_KEY_ID: ${env:SLS_DEPLOYMENT_BUCKET_KMS_KEY_ID}
+<% } -%>
 <% if (kmsEncryptionKeyId) { -%>
   SLS_AWS_KMS_KEY_ID: ${env:SLS_AWS_KMS_KEY_ID}
 <% } -%>

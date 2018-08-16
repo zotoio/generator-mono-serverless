@@ -145,7 +145,17 @@ module.exports = class extends Generator {
                 },
                 type: 'input',
                 name: 'kmsEncryptionKeyId',
-                message: 'KMS key id (ie. uuid from end of ARN):',
+                message: 'KMS key id for env vars (ie. uuid from end of ARN):',
+                default: '',
+                store: true
+            },
+            {
+                when: function(response) {
+                    return response.provider === 'aws';
+                },
+                type: 'input',
+                name: 'kmsEncryptionKeyIdBucket',
+                message: 'KMS key id for deployment bucket (ie. uuid from end of ARN):',
                 default: '',
                 store: true
             },
@@ -261,6 +271,7 @@ module.exports = class extends Generator {
             this.destinationPath(`${this.props.packagePath}/.envExample`),
             {
                 kmsEncryptionKeyId: 'f7xxx9-20xf-4x98-bxx5-5xxxxccf8556',
+                kmsEncryptionKeyIdBucket: 'f7xxx9-20xf-4x98-bxx5-5xxxxccf8556',
                 executionAwsRole: 'arn:aws:iam::34xxxxxxxx73:role/lambda-execution',
                 apiGatewayAuthorizer: 'arn:aws:lambda:XXXX:function:my-authorizer',
                 s3EventBucket: 'myBucket',
@@ -282,6 +293,7 @@ module.exports = class extends Generator {
             this.destinationPath(`${this.props.packagePath}/.env`),
             {
                 kmsEncryptionKeyId: this.props.kmsEncryptionKeyId,
+                kmsEncryptionKeyIdBucket: this.props.kmsEncryptionKeyIdBucket,
                 executionAwsRole: this.props.executionAwsRole,
                 apiGatewayAuthorizer: this.props.apiGatewayAuthorizer,
                 s3EventBucket: this.props.s3EventBucket,
@@ -381,6 +393,7 @@ module.exports = class extends Generator {
                 useAliases: this.props.useAliases,
                 executionAwsRole: this.props.executionAwsRole,
                 kmsEncryptionKeyId: this.props.kmsEncryptionKeyId,
+                kmsEncryptionKeyIdBucket: this.props.kmsEncryptionKeyIdBucket,
                 apiGatewayAuthorizer: this.props.apiGatewayAuthorizer,
                 deploymentBucketPrefix: this.props.deploymentBucketPrefix,
                 snsErrorTopicArn: this.props.snsErrorTopicArn,
@@ -400,6 +413,7 @@ module.exports = class extends Generator {
                         useDomainManager: this.props.useDomainManager,
                         useAliases: this.props.useAliases,
                         kmsEncryptionKeyId: this.props.kmsEncryptionKeyId,
+                        kmsEncryptionKeyIdBucket: this.props.kmsEncryptionKeyIdBucket,
                         eventTriggerType: this.props.eventTriggerType,
                         s3EventBucket: this.props.s3EventBucket,
                         s3EventTrigger: this.props.s3EventTrigger,

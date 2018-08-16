@@ -27,6 +27,10 @@ provider:
 <% if (deploymentBucketPrefix) { -%>
   deploymentBucket:
     name: ${env:SLS_DEPLOYMENT_S3_BUCKET_PREFIX}.serverless.${self:provider.stage}
+<% if (kmsEncryptionKeyIdBucket) { -%>
+    serverSideEncryption: aws:kms
+    sseKMSKeyId: ${env:SLS_DEPLOYMENT_BUCKET_KMS_KEY_ID}
+<% } %>
 <% } -%>
 
   stage: ${env:SLS_AWS_STAGE}

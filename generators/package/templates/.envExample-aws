@@ -8,6 +8,9 @@ SLS_SNS_ERROR_TOPIC_ARN=<%= snsErrorTopicArn %>
 <% if (deploymentBucketPrefix) { -%>
 SLS_DEPLOYMENT_S3_BUCKET_PREFIX=<%= deploymentBucketPrefix %>
 <% } -%>
+<% if (kmsEncryptionKeyIdBucket) { -%>
+SLS_DEPLOYMENT_BUCKET_KMS_KEY_ID=<%= kmsEncryptionKeyIdBucket %>
+<% } -%>
 <% if (ddbTableName) { -%>
 SLS_DYNAMODB_TABLENAME=<%= ddbTableName %>
 <% } -%>
