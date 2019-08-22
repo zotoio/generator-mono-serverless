@@ -11,7 +11,13 @@
         "dev": "yarn run sls-offline",
         "prebuild": "yarn run clean",
         "predev": "yarn run clean",
-        "test": "jest -c ../../jest.json --coverage",
+        "test": "cross-env NODE_ENV=test ts-mocha 'src/**/*.spec.ts' --exit",
+        "test:watch": "cross-env NODE_ENV=test ts-mocha --watch",
+        "test:staged": "cross-env NODE_ENV=test ts-mocha 'src/**/*.spec.ts' --exit",
+        "coverage": "cross-env NODE_ENV=test nyc ts-mocha 'src/**/*.spec.ts' --exit",
+        "semantic-release": "semantic-release",
+        "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
+        "precommit": "lint-staged",
         "sls-deploy":
             "yarn run build && node --require ../../dotenv.js ../../node_modules/serverless/bin/serverless deploy -v",
         "sls-remove":

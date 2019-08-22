@@ -1,6 +1,7 @@
 service: <%= name %>
 
 plugins:
+  - serverless-plugin-thundra
 <% if (kmsEncryptionKeyId) { -%>
   - serverless-kms-secrets
 <% } -%>
@@ -75,7 +76,11 @@ custom:
   webpack:
     webpackConfig: '../../../webpack.config.js'
 
-<% if (kmsEncryptionKeyId) { -%>
+  thundra:
+    apiKey: ${self:provider.environment.SLS_THUNDRA_API_KEY}
+
+
+      <% if (kmsEncryptionKeyId) { -%>
   kmsSecrets: ${file(kms-secrets.${opt:stage, self:provider.stage}.${opt:region, self:provider.region}.yml)}
 <% } -%>
 

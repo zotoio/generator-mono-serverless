@@ -1,6 +1,7 @@
 # function specific env vars override and extend shared .env
 SLS_AWS_STAGE=dev
 SLS_AWS_REGION=ap-southeast-2
+SLS_THUNDRA_API_KEY=thundra-api-key
 SLS_APIGW_ENDPOINT_TYPE=<%= apiGatewayEndpointType %>
 <% if (snsErrorTopicArn) { -%>
 SLS_SNS_ERROR_TOPIC_ARN=<%= snsErrorTopicArn %>
