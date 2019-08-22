@@ -1,0 +1,6 @@
+{
+  "hooks": {
+    "commit-msg": "[[ -n $HUSKY_BYPASS ]] || commitlint -E HUSKY_GIT_PARAMS",
+    "pre-commit": "npx lerna run precommit --stream"
+  }
+}

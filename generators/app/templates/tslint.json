@@ -1,18 +1,34 @@
 {
-    "extends": ["tslint:recommended", "tslint-config-prettier", "tslint-plugin-prettier"],
-    "rulesDirectory": ["tslint-plugin-prettier"],
-    "rules": {
-        "prettier": true,
-        "interface-name": [true, "never-prefix"],
-        "object-literal-sort-keys": false,
-        "no-string-literal": false,
-        "no-trailing-whitespace": false,
-        "no-console": false,
-        "no-duplicate-imports": true,
-        "variable-name": ["check-format", "allow-leading-underscore"],
-        "ordered-imports": false,
-        "max-classes-per-file": [true, 15],
-        "no-var-requires": false,
-        "cyclomatic-complexity": true
-    }
+  "extends": ["tslint:recommended", "tslint-config-prettier", "tslint-plugin-prettier"],
+  "rulesDirectory": ["tslint-plugin-prettier"],
+  "rules": {
+    "interface-name": [true, "never-prefix"],
+    "no-string-literal": false,
+    "no-trailing-whitespace": false,
+    "no-console": false,
+    "no-duplicate-imports": true,
+    "variable-name": ["check-format", "allow-leading-underscore"],
+    "ordered-imports": false,
+    "max-classes-per-file": [true, 15],
+    "no-var-requires": false,
+    "cyclomatic-complexity": true,
+    "quotes": ["error", "single"],
+    "eol-last": ["error", "always"],
+    "semi": ["error", "never"],
+    "no-submodule-imports": false,
+    "object-literal-sort-keys": false,
+    "member-ordering": false,
+    "member-access": false,
+    "prettier": [
+      true,
+      {
+        "printWidth": 100,
+        "semi": false,
+        "useTabs": false,
+        "singleQuote": true,
+        "trailingComma": "es5",
+        "bracketSpacing": true
+      }
+    ]
+  }
 }
