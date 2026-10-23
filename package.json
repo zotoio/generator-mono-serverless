@@ -95,5 +95,8 @@
         ]
     },
     "repository": "zotoio/generator-mono-serverless",
-    "license": "MIT"
+    "license": "MIT",
+    "resolutions": {
+        "handlebars": "^4.7.10"
+    }
 }
